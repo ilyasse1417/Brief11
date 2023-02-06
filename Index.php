@@ -1,4 +1,5 @@
 <?php
+// Declaration des variables
     $results = [0,0,0,0];
     $GP = [0,0,0,0];
     $GW = [0,0,0,0];
@@ -13,40 +14,31 @@
               ["CRO", $results[2], $GP[2], $GW[2], $GE[2], $GL[2], $GS[2], $GR[2], $GS_GR[2]],
               ["CAN", $results[3], $GP[3], $GW[3], $GE[3], $GL[3], $GS[3], $GR[3], $GS_GR[3]]
     ];
-
+// Quand on clique sur le boutton submit
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $morocco = [$_POST["MOR1"],$_POST["MOR2"],$_POST["MOR3"]];
     $belgium = [$_POST["BEL1"],$_POST["BEL2"],$_POST["BEL3"]];
     $croitia = [$_POST["CRO1"],$_POST["CRO2"],$_POST["CRO3"]];
     $canada = [$_POST["CAN1"],$_POST["CAN2"],$_POST["CAN3"]];
 
-    // MOR1 vs BEL1
-    // MOR2 vs CRO1
-    // MOR3 vs CAN1
-    // BEL2 vs CRO2
-    // BEL3 vs CAN2
-    // CRO3 vs CAN3
-
-    // // $results[0] = Morocco
-    // // $results[1] = Belgium
-    // // $results[2] = Croitia
-    // // $results[3] = Canada
+// Toutes les équipes prennent la valeur 3 dans matches joués
      $GP = [3,3,3,3];
+// L'addition des buts marqués
      $GS[0]=$_POST["MOR1"]+$_POST["MOR2"]+$_POST["MOR3"];
      $GS[1]=$_POST["BEL1"]+$_POST["BEL2"]+$_POST["BEL3"];
      $GS[2]=$_POST["CRO1"]+$_POST["CRO2"]+$_POST["CRO3"];
      $GS[3]=$_POST["CAN1"]+$_POST["CAN2"]+$_POST["CAN3"];
-
+// L'addition des buts reçus
      $GR[0]=$_POST["BEL1"]+$_POST["CRO1"]+$_POST["CAN1"];
      $GR[1]=$_POST["MOR1"]+$_POST["CRO2"]+$_POST["CAN2"];
      $GR[2]=$_POST["MOR2"]+$_POST["BEL2"]+$_POST["CAN3"];
      $GR[3]=$_POST["CRO3"]+$_POST["BEL3"]+$_POST["MOR3"];
-
+// La soustraction des buts reçus des buts marqués
      $GS_GR[0]= $GS[0]-$GR[0];
      $GS_GR[1]= $GS[1]-$GR[1];
      $GS_GR[2]= $GS[2]-$GR[2];
      $GS_GR[3]= $GS[3]-$GR[3];
-
+// Les conditions Au cas de victoire/egalité/perte
      if ($morocco[0] > $belgium[0]) {
        $results[0]+= 3;
        $GW[0]+= 1;
@@ -105,7 +97,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        $results[2]+= 1;
        $GE[1]+= 1;
        $GE[2]+= 1;
-
      }
      //////////////////////////////////////////
      if ($belgium[2] > $canada[1]) {
@@ -137,14 +128,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
        $GE[2]+= 1;
        $GE[3]+= 1;
      }
-
+// remplissage du tableau
      $table = [  ["TEAMS", "PTS", "GP", "GW", "GE", "GL","GS","GR","+/-"],
               ["MOR", $results[0], $GP[0], $GW[0], $GE[0], $GL[0], $GS[0], $GR[0], $GS_GR[0]],
               ["BEL", $results[1], $GP[1], $GW[1], $GE[1], $GL[1], $GS[1], $GR[1], $GS_GR[1]],
               ["CRO", $results[2], $GP[2], $GW[2], $GE[2], $GL[2], $GS[2], $GR[2], $GS_GR[2]],
               ["CAN", $results[3], $GP[3], $GW[3], $GE[3], $GL[3], $GS[3], $GR[3], $GS_GR[3]]
     ];
-
+// Fonction de tri du tableau
      function compare($a, $b) {
             if ($a[1] == $b[1]) {
                 if ($a[8] == $b[8]) {
@@ -170,6 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 <?php
+// Boucle foreach pour imprimer le tableau apres son remplissage et son tri
      echo "<table class='table table-dark'>";
         foreach ($table as $row) {
             echo "<tr>";
